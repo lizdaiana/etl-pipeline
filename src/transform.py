@@ -7,6 +7,14 @@ def transform_data(df):
     duplicates_removed = before - len(df)
     print(f"Filas duplicadas eliminadas: {duplicates_removed}")
 
+    df.columns = (
+        df.columns.astype(str)
+        .str.strip()
+        .str.lower()
+        .str.replace(" ", "_", regex=False)
+        .str.replace(r"[^a-z0-9_]", "", regex=True)
+    )
+
     for column in df.select_dtypes(include=['object']).columns:
         df[column] =  df[column].astype("category")
 
